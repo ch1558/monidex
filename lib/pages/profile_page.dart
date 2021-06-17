@@ -31,6 +31,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   _headerContainer(BuildContext context, double width, double height) {
+    String user = prefs.nick;
     return Padding(
       padding: EdgeInsets.fromLTRB(width * 0.025, width * 0.03, width * 0.025, 0),
       child: Column(
@@ -48,7 +49,7 @@ class ProfilePage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _headerText(width, 'Hola ch1558'),
+                  _headerText(width, 'Hola $user'),
                   SizedBox(height: width * 0.05),
                   Center(
                     child: MaterialButton(

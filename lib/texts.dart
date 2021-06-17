@@ -60,6 +60,12 @@ class TextEnum {
       fontSize: width*0.045,    
       color: Colors.blue[700],   
       fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle getTitle5(double width) => TextStyle(
+      fontSize: width*0.07,    
+      color: Colors.white,   
+      fontFamily: 'NeueMontreal-Bold');
+
 
   static TextStyle avatarText1(double width) => TextStyle(
       fontSize: width*0.03,

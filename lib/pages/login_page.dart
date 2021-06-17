@@ -23,12 +23,20 @@ class _LoginPageState extends State<LoginPage> {
     final double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Monidex UFPS', style: TextEnum.getTitle5(_width)),
+        centerTitle: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white),
+          onPressed: () => Navigator.pushNamedAndRemoveUntil( context, 'home', (Route<dynamic> route) => false)
+        ),
+      ),
       body: Container(
           width: double.infinity,
           color: Colors.white,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: _width * 0.13),
+              SizedBox(height: _width * 0.05),
               _textLogin(_width),
               SizedBox(height: _width * 0.075),
               _containerForm(_height, _width, context),
