@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:monidex/core/bloc/provider.dart';
+import 'package:monidex/core/bloc/user_bloc.dart';
 import 'package:monidex/core/models/user_model.dart';
+import 'package:monidex/core/services/user_service.dart';
 import 'package:monidex/texts.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -9,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey2 = GlobalKey<FormState>();
+  final userService = new UserService();
   bool _guardando = false;
 
   @override
@@ -48,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _containerForm(double height, double width, BuildContext context) {
-    //final bloc = Provider.of(context);
+    final bloc = Provider.of(context);
 
     return Container(
       width: double.infinity,
@@ -61,15 +65,15 @@ class _RegisterPageState extends State<RegisterPage> {
         key: formKey2,
         child: Column(
           children: <Widget>[
-            inputNickName(width),
+            inputNickName(width, bloc),
             SizedBox(height: width * 0.025),
-            inputName(width),
+            inputName(width, bloc),
             SizedBox(height: width * 0.025),
-            inputLastName(width),
+            inputLastName(width, bloc),
             SizedBox(height: width * 0.025),
-            inputPassword(width),
+            inputPassword(width, bloc),
             SizedBox(height: width * 0.1),
-            _button(height, width, context),
+            _button(height, width, context, bloc),
             SizedBox(height: width * 0.075),
           ],
         ),
@@ -79,8 +83,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //Inputs para ususarios
 
-  Widget inputNickName(double width) {
+  Widget inputNickName(double width, UserBloc bloc) {
     return StreamBuilder(
+      stream: bloc.nickStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: 0),
@@ -104,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
               hintStyle: TextStyle(color: Colors.grey[400]),
               border: InputBorder.none,
             ),
-            onChanged: null,
+            onChanged: bloc.changeNick,
             validator: (value) {
               if (value.length == 0) 
                 return 'Ingrese un nick name';
@@ -116,8 +121,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget inputName(double width) {
+  Widget inputName(double width, UserBloc bloc) {
     return StreamBuilder(
+      stream: bloc.nameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: 0),
@@ -141,7 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
               hintStyle: TextStyle(color: Colors.grey[400]),
               border: InputBorder.none,
             ),
-            onChanged: null,
+            onChanged: bloc.changeName,
             validator: (value) {
               if (value.length == 0) 
                 return 'Ingrese su nombre';
@@ -153,8 +159,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget inputLastName(double width) {
+  Widget inputLastName(double width, UserBloc bloc) {
     return StreamBuilder(
+      stream: bloc.lastNameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: 0),
@@ -178,7 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
               hintStyle: TextStyle(color: Colors.grey[400]),
               border: InputBorder.none,
             ),
-            onChanged: null,
+            onChanged: bloc.changeLastName,
             validator: (value) {
               if (value.length == 0) 
                 return 'Ingrese su apellido';
@@ -190,8 +197,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget inputPassword(double width) {
+  Widget inputPassword(double width, UserBloc bloc) {
     return StreamBuilder(
+      stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: 0),
@@ -216,7 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
               hintStyle: TextStyle(color: Colors.grey[400]),
               border: InputBorder.none,
             ),
-            onChanged: null,
+            onChanged: bloc.changePassword,
             validator: (value) {
               if (value.length < 3)
                 return 'Clave muy corta';
@@ -230,8 +238,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
   //Fin inputs usuario
 
-  Widget _button(double height, double width, BuildContext context) {
+  Widget _button(double height, double width, BuildContext context, UserBloc bloc) {
     return StreamBuilder(
+      stream: bloc.registerValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return MaterialButton(
           child: Text('Registrarme', style: TextEnum.buttonWitColor(width)),
@@ -242,15 +251,32 @@ class _RegisterPageState extends State<RegisterPage> {
           minWidth: width * 0.85,
           elevation: 10,
           onPressed: snapshot.hasData && !_guardando
-            ? () => _submit(context)
+            ? () => _submit(context, bloc)
             : null
         );
       }
     );
   }
 
-  _submit(BuildContext context) {
+  void mostrarAlerta(BuildContext context, String mensaje) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Alerta'),
+          content: Text(mensaje),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      }
+    );
+  }
 
+  _submit(BuildContext context, UserBloc userBloc) async{
     if(!formKey2.currentState.validate()) 
       return;
 
@@ -260,14 +286,24 @@ class _RegisterPageState extends State<RegisterPage> {
 
     User userRs = new User();
     userRs.setId(0);
-    userRs.setName('Juan');
-    userRs.setLastName('Hernandez');
-    userRs.setNickName('Ch1558');
+    userRs.setName(userBloc.name);
+    userRs.setLastName(userBloc.lastName);
+    userRs.setNickName(userBloc.nick);
     userRs.setRole('ROLE_ESTUDIANTE');
-    userRs.setPassword('123456');
+    userRs.setPassword(userBloc.password);
 
-    List<String> response = await 
+    String response = await userBloc.service.createUSer(userRs);
 
-    Navigator.pushNamedAndRemoveUntil( context, 'main', (Route<dynamic> route) => false);
+    mostrarAlerta(context, response);
+
+    if (response == 'Usuario creado con exito'){
+      Navigator.pushNamedAndRemoveUntil( context, 'home', (Route<dynamic> route) => false);
+    } else {
+      setState(() {
+        _guardando = false; 
+      });
+    }
+
   }
+
 }

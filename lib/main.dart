@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monidex/core/bloc/provider.dart';
 import 'package:monidex/routes.dart' as routes;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(Monidex());
 }
 
@@ -13,17 +15,19 @@ class Monidex extends StatelessWidget{
     
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Diver app',
-      theme: ThemeData(
-        fontFamily: 'NeueMontreal',
-        primarySwatch: Colors.blue,
-        accentColor: Colors.blue[900],
-        focusColor: Colors.blue[200],
+    return Provider(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Diver app',
+        theme: ThemeData(
+          fontFamily: 'NeueMontreal',
+          primarySwatch: Colors.blue,
+          accentColor: Colors.blue[900],
+          focusColor: Colors.blue[200],
+        ),
+        initialRoute: 'home',
+        routes: routes.getRoutes(),
       ),
-      initialRoute: 'home',
-      routes: routes.getRoutes(),
     );
 
   }
