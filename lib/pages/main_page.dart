@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:monidex/core/models/news_model.dart';
 import 'package:monidex/texts.dart';
 
+import 'navigation_bar.dart' as widget;
+
 class MainPage extends StatelessWidget {
 
   @override
@@ -20,7 +22,8 @@ class MainPage extends StatelessWidget {
             ]
           ),
         ),
-      )
+      ),
+      bottomNavigationBar: widget.navigationBar(context, _width, 1),
     );
     
   }
