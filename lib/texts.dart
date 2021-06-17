@@ -25,6 +25,41 @@ class TextEnum {
       fontSize: width*0.09,    
       color: Colors.blue[700],   
       fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle getTitle3(double width) => TextStyle(
+      fontSize: width*0.085,    
+      color: Colors.blueGrey[700],   
+      fontFamily: 'NeueMontreal-Bold');
+
+  static TextStyle calendar1(double width) => TextStyle(
+      fontSize: width*0.075,    
+      color: Colors.white,   
+      fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle calendar2(double width) => TextStyle(
+      fontSize: width*0.035,    
+      color: Colors.blue[100],   
+      fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle calendar3(double width) => TextStyle(
+      fontSize: width*0.065,    
+      color: Colors.blueGrey[900],   
+      fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle calendar4(double width) => TextStyle(
+      fontSize: width*0.03,   
+      color: Colors.blueGrey[200],   
+      fontFamily: 'NeueMontreal-Bold');
+  
+  static TextStyle calendar5(double width) => TextStyle(
+      fontSize: width*0.03,    
+      color: Colors.blue[200],   
+      fontFamily: 'NeueMontreal-Bold');
+
+  static TextStyle getTitle4(double width) => TextStyle(
+      fontSize: width*0.045,    
+      color: Colors.blue[700],   
+      fontFamily: 'NeueMontreal-Bold');
 
   static TextStyle avatarText1(double width) => TextStyle(
       fontSize: width*0.03,
