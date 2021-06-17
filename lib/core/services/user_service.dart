@@ -43,10 +43,14 @@ class UserService {
       body: body
     ).catchError((e){});
 
-    print(resp.statusCode);
-    print(resp.body);
+    int status = resp.statusCode;
 
-    return "pasó algo";
+    if (status == 200) {
+      return 'Login exitoso';
+    } else {
+      return 'datos erroneos';
+    }
+
   }
 
 }
