@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monidex/core/models/user_model.dart';
 import 'package:monidex/texts.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -60,9 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
         key: formKey2,
         child: Column(
           children: <Widget>[
-            inputEmail(width),
-            SizedBox(height: width * 0.025),
-            inputPhone(width),
+            inputNickName(width),
             SizedBox(height: width * 0.025),
             inputName(width),
             SizedBox(height: width * 0.025),
@@ -79,47 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   //Inputs para ususarios
-  Widget inputPhone(double width) {
-    return StreamBuilder(
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: 0),
-          width: width * 0.85,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(width * 0.7),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue[700],
-                blurRadius: 1,
-                offset: Offset(0, 0)
-              )
-            ]
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: 'Telefóno',
-              labelText: 'Ingresa tu telefono',
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              border: InputBorder.none,
-            ),
-            onChanged: null,
-            validator: (value) {
-              final n = num.tryParse(value);
-              if (value.length == 0)
-                return 'Ingrese telefono';
-              else if (value.length < 10 || n == null)
-                return 'Telefono incorrecto';
-              return null;
-            },
-          ),
-        );
-      }
-    );
-  }
 
-  Widget inputEmail(double width) {
+  Widget inputNickName(double width) {
     return StreamBuilder(
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
@@ -139,15 +99,15 @@ class _RegisterPageState extends State<RegisterPage> {
           child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              hintText: 'Correo electrónico',
-              labelText: 'Ingresa tu correo electrónico',
+              hintText: 'Nick name',
+              labelText: 'Ingresa tu nick name',
               hintStyle: TextStyle(color: Colors.grey[400]),
               border: InputBorder.none,
             ),
             onChanged: null,
             validator: (value) {
               if (value.length == 0) 
-                return 'Ingrese correo electrónico';
+                return 'Ingrese un nick name';
               return null;
             },
           ),
@@ -290,6 +250,24 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _submit(BuildContext context) {
+
+    if(!formKey2.currentState.validate()) 
+      return;
+
+    setState(() {
+      _guardando = true;
+    });
+
+    User userRs = new User();
+    userRs.setId(0);
+    userRs.setName('Juan');
+    userRs.setLastName('Hernandez');
+    userRs.setNickName('Ch1558');
+    userRs.setRole('ROLE_ESTUDIANTE');
+    userRs.setPassword('123456');
+
+    List<String> response = await 
+
     Navigator.pushNamedAndRemoveUntil( context, 'main', (Route<dynamic> route) => false);
   }
 }
