@@ -297,7 +297,7 @@ class _RegisterPageState extends State<RegisterPage> {
     mostrarAlerta(context, response);
 
     if (response == 'Usuario creado con exito'){
-      Navigator.pushNamedAndRemoveUntil( context, 'home', (Route<dynamic> route) => false);
+      Navigator.pushNamedAndRemoveUntil( context, 'main', (Route<dynamic> route) => false);
     } else {
       setState(() {
         _guardando = false; 

@@ -26,4 +26,19 @@ class TextEnum {
       color: Colors.blue[700],   
       fontFamily: 'NeueMontreal-Bold');
 
+  static TextStyle avatarText1(double width) => TextStyle(
+      fontSize: width*0.03,
+      color: Colors.white,
+      fontFamily: 'NeueMontreal');
+
+  static TextStyle avatarText2(double width) => TextStyle(
+      fontSize: width*0.075,
+      color: Colors.white,
+      fontFamily: 'NeueMontreal');
+
+  static TextStyle avatarText3(double width) => TextStyle(
+      fontSize: width*0.04,
+      color: Colors.white,
+      fontFamily: 'NeueMontreal');
+
 }

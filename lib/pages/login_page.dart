@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
     mostrarAlerta(context, response);
 
     if (response == 'Login exitoso'){
-      Navigator.pushNamedAndRemoveUntil( context, 'home', (Route<dynamic> route) => false);
+      Navigator.pushNamedAndRemoveUntil( context, 'main', (Route<dynamic> route) => false);
     } else {
       setState(() {
         _guardando = false; 
