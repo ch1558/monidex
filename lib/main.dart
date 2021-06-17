@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monidex/core/bloc/provider.dart';
 import 'package:monidex/routes.dart' as routes;
+import 'package:monidex/core/services/shared_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
   runApp(Monidex());
 }
 
@@ -14,6 +17,9 @@ class Monidex extends StatelessWidget{
   Widget build(BuildContext context) {
     
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    final prefs = new PreferenciasUsuario();
+    String _initialRoute = prefs.nick == '' ? 'home' : 'main';
 
     return Provider(
       child: MaterialApp(
@@ -25,7 +31,7 @@ class Monidex extends StatelessWidget{
           accentColor: Colors.blue[900],
           focusColor: Colors.blue[200],
         ),
-        initialRoute: 'home',
+        initialRoute: _initialRoute,
         routes: routes.getRoutes(),
       ),
     );

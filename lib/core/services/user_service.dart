@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:monidex/core/models/user_model.dart';
+import 'package:monidex/core/services/shared_preferences.dart';
 
 class UserService {
 
-  final String _url = 'http://34.229.161.94:8080/api/usuario';
+  final String _url = 'http://34.229.161.94:8080/api/usuario';  
+  final _prefs = new PreferenciasUsuario();
   
   Future<String> createUSer(User userRs) async {
     var body = jsonEncode(userRs.toJson());
@@ -18,6 +20,7 @@ class UserService {
     int status = resp.statusCode;
 
     if (status == 201) {
+      _prefs.nick = userRs.getNickName();
       return 'Usuario creado con exito';
     } else if (status == 409) {
       return 'Nickname existente, por favor escoge otro';
@@ -46,6 +49,7 @@ class UserService {
     int status = resp.statusCode;
 
     if (status == 200) {
+       _prefs.nick = userRs.getNickName();
       return 'Login exitoso';
     } else {
       return 'datos erroneos';

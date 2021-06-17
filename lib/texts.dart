@@ -41,4 +41,9 @@ class TextEnum {
       color: Colors.white,
       fontFamily: 'NeueMontreal');
 
+  static TextStyle avatarTextBlack(double width) => TextStyle(
+      fontSize: width*0.04,
+      color: Colors.white,
+      fontFamily: 'NeueMontreal');
+
 }
